@@ -1,0 +1,24 @@
+{% load static %}
+<html>
+<head>
+	<link rel="stylesheet" href="{% static 'llogin.css' %}">
+</head>
+<body>
+<div class="contenedor">
+		<div class="icon">
+			<p><i class="material-icons">&#xE62F;</i></p>
+		</div>
+		<div class="login">
+			<h1>Lab assistant login</h1>
+			<p style="color:red";>{{msg}}</p>
+			<form action='{% url "llogin" %}'  method="POST">
+				{% csrf_token %}
+				<div class="inputLabel"><label for="email">Email</label><input type="email" name="email" id="user"></div>
+				<div class="inputLabel"><label for="pass">Password</label><input type="password" name="password" id="pass"></div>
+				<div class="contentBtn"><button class="btn" type="submit">Login</button></div>
+			</form>
+			<a href="{% url 'lforgot' %}"> forgot password?</a>
+		</div>
+	</div>
+	</body>
+</html>
