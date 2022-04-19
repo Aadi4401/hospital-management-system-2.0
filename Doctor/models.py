@@ -11,4 +11,7 @@ class Doctors(models.Model):
     doc_pic=models.FileField(upload_to='profile',default='doc.png')
     fees=models.IntegerField()
 
+    def __str__(self):
+        return self.doctorname
+
     

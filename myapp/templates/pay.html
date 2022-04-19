@@ -48,7 +48,7 @@
 		border-radius: 4px;
 		cursor: pointer;
 		padding: 4px 8px;
-		background-color: #2c8ec7;
+		background-color:#009CFF;
 		color: white;
 		font-size: 1.2em;
 		font-weight: 600;
@@ -58,13 +58,48 @@
 </head>
 <body>
 	<div class="card">
-	<h1 class="title"><b>LIFE CARE</b> </h1>
+	<h1 class="title">Life Care </h1>
+	<div class="container mt-5 mb-5">
+<div class="row d-flex justify-content-center">
+<div class="col-md-8">
+<br>
+<br>
+
+	<tr>
+		<td>
+		<div class="py-2"> <span class="d-block text-muted">Patient Name: {{ap.patient.fname}} {{ap.patient.lname}}</span> </div>
+		</td>
+		<br>
+		<td>
+		<div class="py-2"> <span class="d-block text-muted">Doctor name: {{ap.doctor.doctorname}}</span>  </div>
+		</td>
+		<br>
+		<td>
+		<div class="py-2"> <span class="d-block text-muted">Appointment Date: {{ap.date}}</span>  </div>
+		</td>
+		<td>
+		<br>
+			<td>
+				<div class="py-2"> <span class="d-block text-muted">Appointment time: {{ap.time}}</span>  </div>
+				</td>
+				<br>
+				<td>
+					<td>
+						<div class="py-2"> <span class="d-block text-muted">Payment Method: : {{ap.pay_method}}</span>  </div>
+						</td>
+						<br>
+						<td>
+							<td>
+								<div class="py-2"> <span class="d-block text-muted">Amount : {{ap.amount}}</span>  </div>
+								</td>
+								<br>
+								<td>								
 	<small class="muted"
-		>pay fees to book appointment</small
+		 style="color:red">Make payment to book appointment</small
 	>
 	<div class="btn_container">
 		<!-- Payment Button -->
-		<button class="btn" id="pay-btn">Pay Fees</button>
+		<button class="btn" id="pay-btn">pay</button>
 	</div>
 	</div>
 </body>

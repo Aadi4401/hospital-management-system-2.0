@@ -9,6 +9,7 @@ urlpatterns = [
       path('ledit/', views.ledit, name="ledit"),
       path('ldash/', views.ldash, name="ldash"),
       path('lchangepass/', views.lchangepass, name="lchangepass"),
+      path('lviewappointment/', views.lviewappointment , name="lviewappointment"),
       
 
 ]

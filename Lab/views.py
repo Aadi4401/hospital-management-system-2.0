@@ -76,3 +76,8 @@ def lforgot(request):
         except:
             return render(request,'lforgot.html',{'msg':'invalid email'})
     return render(request,'lforgot.html')   
+
+
+def lviewappointment(request):
+    lab=Assistants.objects.get(email=request.session['email'])
+    return render(request,'lviewappointment.html',{'lab':lab})

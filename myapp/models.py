@@ -4,6 +4,11 @@ from Doctor.models import Doctors
 
 
 
+
+
+
+
+
 # Create your models here.
 class User(models.Model):
     fname=models.CharField(max_length=30)

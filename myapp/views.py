@@ -1,5 +1,7 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse, JsonResponse
+
+from Lab.models import Assistants, Lappointment, Test
 from .models import *
 from django.conf import settings
 from django.core.mail import send_mail
@@ -160,66 +162,100 @@ def getspe(request):
     data = list(Doctors.objects.filter(specialization=request.GET['value']).values())
     return JsonResponse({'data':data})
 
+razorpay_client = razorpay.Client(
+    auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
+ 
 def appointment(request):
-    uid=User.objects.get(email=request.session['email'])
-    doctor=Doctors.objects.all() 
+    uid=User.objects.get(email=request.session['email']) 
+    doctor = Doctors.objects.all()
     if request.method=='POST':
         doctor = Doctors.objects.get(id=request.POST['doctorname'])
-        Appointments.objects.create(
+        ap = Appointments.objects.create(
             doctor = doctor,
             pay_method = request.POST['pay_method'],
             date = request.POST['date'],
             time = request.POST['time'],
             patient = uid,
-            amount = doctor.fees
-    )
-        return render(request,'appointment.html',{'msg':'appointment booked successfully','uid':uid})
+            amount = doctor.fees,
+            
+        )
+        if request.POST['pay_method'] == 'offline':
+            return render(request,'appointment.html',{'msg':'appointment booked successfully','uid':uid})
+        currency = 'INR'
+        amount = (doctor.fees)*100  # Rs. 200
+    
+        # Create a Razorpay Order
+        razorpay_order = razorpay_client.order.create(dict(amount=amount,
+                                                        currency=currency,
+                                                        payment_capture='0'))
+    
+        # order id of newly created order.
+        razorpay_order_id = razorpay_order['id']
+        callback_url = f'paymenthandler/{ap.id}'
+    
+        # we need to pass these details to frontend.
+        context = {}
+        context['razorpay_order_id'] = razorpay_order_id
+        context['razorpay_merchant_key'] = settings.RAZOR_KEY_ID
+        context['razorpay_amount'] = amount
+        context['currency'] = currency
+        context['callback_url'] = callback_url
+        context['ap'] = ap
+        return render(request,'pay.html', context=context)
     return render(request,'appointment.html',{'uid':uid,'doctor':doctor})
 
 
+def lappointment(request):
+    uid=User.objects.get(email=request.session['email'])
+    test=Test.objects.all()    
+    if request.method == 'POST':
+        test = Test.objects.get(id = request.POST['test'])
+        lap=Lappointment.objects.create(
+            test=test,
+            time=request.POST['time'],
+            date=request.POST['date'],
+            amount=test.amount,
+            pay_method=request.POST['pay_method'],
+            patient=uid
 
+        )
+        return render(request,'lappointment.html',{'msg':'Appointment booked successfully','lap':lap})
+    return render(request,'lappointment.html',{'uid':uid,'test':test})
 
-
-
-#payment integration 
-
-
-razorpay_client = razorpay.Client(
-    auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
  
+# def pay(request):
+#     currency = 'INR'
+#     amount = 50000  # Rs. 200
  
-def pay(request):
-    currency = 'INR'
-    amount = 50000  # Rs. 200
+#     # Create a Razorpay Order
+#     razorpay_order = razorpay_client.order.create(dict(amount=amount,
+#                                                        currency=currency,
+#                                                        payment_capture='0'))
  
-    # Create a Razorpay Order
-    razorpay_order = razorpay_client.order.create(dict(amount=amount,
-                                                       currency=currency,
-                                                       payment_capture='0'))
+#     # order id of newly created order.
+#     razorpay_order_id = razorpay_order['id']
+#     callback_url = 'paymenthandler/'
  
-    # order id of newly created order.
-    razorpay_order_id = razorpay_order['id']
-    callback_url = 'paymenthandler/'
+#     # we need to pass these details to frontend.
+#     context = {}
+#     context['razorpay_order_id'] = razorpay_order_id
+#     context['razorpay_merchant_key'] = settings.RAZOR_KEY_ID
+#     context['razorpay_amount'] = amount
+#     context['currency'] = currency
+#     context['callback_url'] = callback_url
  
-    # we need to pass these details to frontend.
-    context = {}
-    context['razorpay_order_id'] = razorpay_order_id
-    context['razorpay_merchant_key'] = settings.RAZOR_KEY_ID
-    context['razorpay_amount'] = amount
-    context['currency'] = currency
-    context['callback_url'] = callback_url
- 
-    return render(request,'pay.html', context=context)
+#     return render(request,'pay.html', context=context)
  
  
 # we need to csrf_exempt this url as
 # POST request will be made by Razorpay
 # and it won't have the csrf token.
 @csrf_exempt
-def paymenthandler(request):
+def paymenthandler(request,pk):
  
     # only accept POST request.
     if request.method == "POST":
+        ap = Appointments.objects.get(id=pk)
         try:
            
             # get the required parameters from post request.
@@ -236,12 +272,14 @@ def paymenthandler(request):
             result = razorpay_client.utility.verify_payment_signature(
                 params_dict)
             # if result is None:
-            amount = 50000  # Rs. 200
+            amount = (ap.amount)*100  # Rs. 200
             try:
 
                 # capture the payemt
                 razorpay_client.payment.capture(payment_id, amount)
-
+                ap.pay_id = payment_id
+                ap.verify = True
+                ap.save()
                 # render success page on successful caputre of payment
                 return render(request, 'success.html')
             except:

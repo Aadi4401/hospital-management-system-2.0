@@ -24,8 +24,9 @@ urlpatterns = [
       path('pchangepass/',views.pchangepass,name="pchangepass"),
       path('appointment/',views.appointment,name="appointment"),
 
-      path('pay/', views.pay, name='pay'),
-      path('pay/paymenthandler/', views.paymenthandler, name='paymenthandler'),
+      # path('pay/', views.pay, name='pay'),
+      path('appointment/paymenthandler/<int:pk>', views.paymenthandler, name='paymenthandler'),
+      path('lappointment/',views.lappointment,name="lappointment"),
      
 
 

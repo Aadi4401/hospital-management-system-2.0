@@ -34,43 +34,27 @@
                 <h2 class="text-center my-4">
                     Find Consultations
                 </h2>
-                <form action="{% url 'appointment' %}" method="POST">
+                <form action="{% url 'lappointment' %}" method="POST">
                     {% csrf_token %}
                    
                     <!---->
                     <div class="form-group row">
-                        <label class="col-sm-4 col-lg-4" for="DoctorSpecialization" aria-placeholder="select specialization">
-                            Doctor Specialization
+                        <label class="col-sm-4 col-lg-4" for="test" aria-placeholder="Select Tests">
+                            Tests
                         </label>
 
                         <div class="col-sm-8 col-lg-8">
-                            <select name="specialization" class="form-control" onchange="getspe(this.value);"
+                            <select name="test" class="form-control" 
                                 required="required">
-                                {% for one in doctor %}
-                                <option value="{{one.specialization}}">{{one.specialization}}</option>
+                                {% for one in test %}
+                                <option value="{{one.id}}">{{one.test_name}}</option>
                                 {% endfor %}
                                
                             </select>
                         </div>
                     </div>
 
-                    <div class="form-group row">
-                        <label class="col-sm-4 col-lg-4" for="doctorname">
-                            Doctor Name
-                        </label>
-
-                        <div class="col-sm-8 col-lg-8">
-                            <select name="doctorname" class="form-control" id="doc"
-                                required="required">
-                                
-                                <option value="">{{one.doctorname}}</option>
-                                
-                                
-
-                            </select>
-                        </div>
-                    </div>
-
+                    
                     <!---->
 
                     <div class="form-group row">
@@ -103,7 +87,7 @@
               
                     <div class="form-group row">
                         <label class="col-sm-4 col-lg-4">
-                            Fees
+                            Amount
                         </label>
                         <div class="col-sm-8 col-lg-8">
                             <fieldset data-role="controlgroup">
@@ -134,27 +118,27 @@
     </div>
     <script src='{% static "appointment_js/appoint.js" %}'></script>
     <script>
-        function getspe(value){
-            data = {
-                'value':value 
-            }
-            $.ajax({
-                url : "{% url 'getspe' %}",
-                method : 'GET',
-                data : data,
+    //     function getspe(value){
+    //         data = {
+    //             'value':value 
+    //         }
+    //         $.ajax({
+    //             url : "{% url 'getspe' %}",
+    //             method : 'GET',
+    //             data : data,
 
-                success : function(response){
-                    console.log(response.data)
-                    data1 = response.data
-                    let s = ''
-                    for(i=0;i < data1.length; i++){
-                        s += '<option value="'+ String(data1[i].id)+'">'+ String(data1[i].doctorname) +'</option>'
-                        // console.log('hello')
-                    }
-                    $('#doc').html(s)
-                }
+    //             success : function(response){
+    //                 console.log(response.data)
+    //                 data1 = response.data
+    //                 let s = ''
+    //                 for(i=0;i < data1.length; i++){
+    //                     s += '<option value="'+ String(data1[i].id)+'">'+ String(data1[i].doctorname) +'</option>'
+    //                     // console.log('hello')
+    //                 }
+    //                 $('#doc').html(s)
+    //             }
                  
-            })
-        }
-    </script>
+    //         })
+    //     }
+    // </script>
 {% endblock %}

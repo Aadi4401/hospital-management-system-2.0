@@ -33,6 +33,7 @@
 </head>
 
 <body>
+  
     <div class="container-xxl position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -64,7 +65,7 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-calendar2-month"></i>Appoinment</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <!-- <a href='#' class="dropdown-item"><i class="bi bi-calendar2-check-fill"></i>View Appoinment</a> -->
+                            <a href='{% url "lviewappointment" %}' class="dropdown-item"><i class="bi bi-calendar2-check-fill"></i>View Appoinment</a>
                             <a href="typography.html" class="dropdown-item"><i class="bi bi-calendar-x"></i>Manage Appoinment</a>
                             <a href="element.html" class="dropdown-item">Other Elements</a>
                         </div>
