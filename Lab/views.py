@@ -1,4 +1,6 @@
 from django.shortcuts import render,redirect
+
+from myapp.views import lappointment
 from .models import *
 from django.conf import settings
 from django.core.mail import send_mail
@@ -80,4 +82,9 @@ def lforgot(request):
 
 def lviewappointment(request):
     lab=Assistants.objects.get(email=request.session['email'])
-    return render(request,'lviewappointment.html',{'lab':lab})
+    lappointments=Lappointment.objects.filter(lab=lab)
+    print(lappointments)
+    return render(request,'lviewappointment.html',{'lappointments':lappointments,'lab':lab})
+
+
+    

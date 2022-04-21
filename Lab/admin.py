@@ -15,4 +15,4 @@ class AdminTest(admin.ModelAdmin):
 
 @admin.register(Lappointment)
 class AdminLappointment(admin.ModelAdmin):
-    list_display=['id','lab','patient','date','time','pay_id','amount','pay_at','verify','pay_method']
+    list_display=['id','lab','test','patient','date','time','pay_id','amount','pay_at','verify','pay_method']

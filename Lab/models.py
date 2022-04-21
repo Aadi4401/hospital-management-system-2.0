@@ -31,13 +31,13 @@ class Lappointment(models.Model):
     time=models.CharField(max_length=25)
     pay_id=models.CharField(max_length=20)
     verify=models.BooleanField(default=False)
-    lab=models.ForeignKey(Assistants,on_delete=models.CASCADE)
+    lab=models.ForeignKey(Assistants,on_delete=models.CASCADE,null=True,blank=True)
     amount=models.IntegerField(default=0)
     patient=models.ForeignKey(User,on_delete=models.CASCADE)
     test=models.ForeignKey(Test,on_delete=models.CASCADE)
     pay_at=models.DateTimeField(auto_now_add=True)
     pay_method=models.CharField(max_length=30,null=True,blank=True)
-    # test_result=models.FileField(upload_to=)
+    # test_result=models.FileField(upload_to=
 
 
 

@@ -191,7 +191,7 @@ def appointment(request):
     
         # order id of newly created order.
         razorpay_order_id = razorpay_order['id']
-        callback_url = f'paymenthandler/{ap.id}'
+        callback_url = f'docpaymenthandler/{ap.id}'
     
         # we need to pass these details to frontend.
         context = {}
@@ -205,22 +205,7 @@ def appointment(request):
     return render(request,'appointment.html',{'uid':uid,'doctor':doctor})
 
 
-def lappointment(request):
-    uid=User.objects.get(email=request.session['email'])
-    test=Test.objects.all()    
-    if request.method == 'POST':
-        test = Test.objects.get(id = request.POST['test'])
-        lap=Lappointment.objects.create(
-            test=test,
-            time=request.POST['time'],
-            date=request.POST['date'],
-            amount=test.amount,
-            pay_method=request.POST['pay_method'],
-            patient=uid
 
-        )
-        return render(request,'lappointment.html',{'msg':'Appointment booked successfully','lap':lap})
-    return render(request,'lappointment.html',{'uid':uid,'test':test})
 
  
 # def pay(request):
@@ -251,7 +236,7 @@ def lappointment(request):
 # POST request will be made by Razorpay
 # and it won't have the csrf token.
 @csrf_exempt
-def paymenthandler(request,pk):
+def docpaymenthandler(request,pk):
  
     # only accept POST request.
     if request.method == "POST":
@@ -298,3 +283,98 @@ def paymenthandler(request,pk):
        # if other than POST request is made.
         return HttpResponseBadRequest() 
 
+
+
+
+def lappointment(request):
+    uid=User.objects.get(email=request.session['email'])
+    test=Test.objects.all() 
+    
+      
+    if request.method == 'POST':
+        test = Test.objects.get(id = request.POST['test'])
+        lap=Lappointment.objects.create(
+            test=test,
+            time=request.POST['time'],
+            date=request.POST['date'],
+            amount=test.amount,
+            pay_method=request.POST['pay_method'],
+            patient=uid,       
+
+        )
+        if request.POST['pay_method'] == 'offline':
+            return render(request,'lappointment.html',{'msg':'Appointment booked successfully','lap':lap,'uid':uid})
+
+        currency = 'INR'
+        amount = (test.amount)*100  # Rs. 200
+    
+        # Create a Razorpay Order
+        razorpay_order = razorpay_client.order.create(dict(amount=amount,
+                                                        currency=currency,
+                                                        payment_capture='0'))
+    
+        # order id of newly created order.
+        razorpay_order_id = razorpay_order['id']
+        callback_url = f'labpaymenthandler/{lap.id}'
+    
+        # we need to pass these details to frontend.
+        context = {}
+        context['razorpay_order_id'] = razorpay_order_id
+        context['razorpay_merchant_key'] = settings.RAZOR_KEY_ID
+        context['razorpay_amount'] = amount
+        context['currency'] = currency
+        context['callback_url'] = callback_url
+        context['lap'] = lap
+        return render(request,'test_pay.html', context=context)
+    
+    return render(request,'lappointment.html',{'uid':uid,'test':test})
+    
+
+
+@csrf_exempt
+def labpaymenthandler(request,pk):
+ 
+    # only accept POST request.
+    if request.method == "POST":
+        lap = Lappointment.objects.get(id=pk)
+        try:
+           
+            # get the required parameters from post request.
+            payment_id = request.POST.get('razorpay_payment_id', '')
+            razorpay_order_id = request.POST.get('razorpay_order_id', '')
+            signature = request.POST.get('razorpay_signature', '')
+            params_dict = {
+                'razorpay_order_id': razorpay_order_id,
+                'razorpay_payment_id': payment_id,
+                'razorpay_signature': signature
+            }
+ 
+            # verify the payment signature.
+            result = razorpay_client.utility.verify_payment_signature(
+                params_dict)
+            # if result is None:
+            amount = (lap.amount)*100  # Rs. 200
+            try:
+
+                # capture the payemt
+                razorpay_client.payment.capture(payment_id, amount)
+                lap.pay_id = payment_id
+                lap.verify = True
+                lap.save()
+                # render success page on successful caputre of payment
+                return render(request, 'success.html')
+            except:
+
+                # if there is an error while capturing payment.
+                return render(request, 'fail.html')
+            # else:
+ 
+            #     # if signature verification fails.
+            #     return render(request, 'fail.html')
+        except:
+ 
+            # if we don't find the required parameters in POST data
+            return HttpResponseBadRequest()
+    else:
+       # if other than POST request is made.
+        return HttpResponseBadRequest()  

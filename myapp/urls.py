@@ -23,11 +23,12 @@ urlpatterns = [
       path('pforgot/',views.pforgot,name="pforgot"),
       path('pchangepass/',views.pchangepass,name="pchangepass"),
       path('appointment/',views.appointment,name="appointment"),
+      path('lappointment/',views.lappointment,name="lappointment"),
 
       # path('pay/', views.pay, name='pay'),
-      path('appointment/paymenthandler/<int:pk>', views.paymenthandler, name='paymenthandler'),
-      path('lappointment/',views.lappointment,name="lappointment"),
+      path('appointment/docpaymenthandler/<int:pk>', views.docpaymenthandler, name='docpaymenthandler'),
+      path('lappointment/labpaymenthandler/<int:pk>',views.labpaymenthandler,name="labpaymenthandler"),
      
-
+      
 
 ]
