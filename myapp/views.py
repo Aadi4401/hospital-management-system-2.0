@@ -1,3 +1,4 @@
+
 from django.shortcuts import redirect, render
 from django.http import HttpResponse, JsonResponse
 
@@ -15,6 +16,13 @@ from django.http import HttpResponseBadRequest
 # Create your views here.
 def index(request):
     return render(request,'index.html')
+
+
+def np(request):
+    if request.method == 'POST':
+        return render(request,'reg.html',{'msg':'ONE STEP AWAY TO BOOK APPOINTMENT REGISTER NOW'})
+    return render(request,'reg.html')
+
 
 def register(request):
     if request.method == 'POST':
@@ -70,15 +78,15 @@ def plogin(request):
         return render(request,'pdash.html',{'uid':uid})
     except:
         if request.method == 'POST':
-            # try:
+            try:
                 uid = User.objects.get(email=request.POST['email'])
                 if request.POST['password'] == uid.password:
                     request.session['email'] = request.POST['email']
                     return render(request,'pdash.html',{'uid':uid})
                 return render(request,'plogin.html',{'msg':'Inncorrect password','uid':uid})
-            # except:
-            #     msg = 'Email is not register'
-            #     return render(request,'plogin.html',{'msg':msg,'uid':uid})
+            except:
+                msg = 'Email is not register'
+                return render(request,'plogin.html',{'msg':msg,'uid':uid})
         return render(request,'plogin.html')
 
 def plogout(request):
@@ -153,7 +161,8 @@ def contact(request):
 def about(request):
     return render(request,'about.html')
 def pdash(request):
-    return render(request,'pdash.html')
+    uid=User.objects.get(email=request.session['email'])
+    return render(request,'pdash.html',{'uid':uid})
 def dashboard(request):
     return render(request,'dashboard.html')
 
@@ -378,3 +387,16 @@ def labpaymenthandler(request,pk):
     else:
        # if other than POST request is made.
         return HttpResponseBadRequest()  
+
+
+
+
+def pviewappointment(request):
+    uid=User.objects.get(email=request.session['email'])
+    appointments=Appointments.objects.all()
+    print(appointments)
+    return render(request,'pviewappointment.html',{'appointments':appointments,'uid':uid})
+
+def delete(request):
+    uid=User.objects.get(id=request.POST['id'])
+    uid.delete()

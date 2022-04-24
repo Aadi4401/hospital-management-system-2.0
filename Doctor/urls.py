@@ -12,4 +12,5 @@ urlpatterns = [
     path('dedit/', views.dedit, name="dedit"),
     path('ddash/', views.ddash, name="ddash"),
     path('viewappointment/', views.viewappointment, name="viewappointment"),
+    path('search/', views.search, name="search"),
 ]

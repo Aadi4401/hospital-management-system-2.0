@@ -17,7 +17,6 @@ def dlogin(request):
         try:
             doctor=Doctors.objects.get(doctoremail=request.POST['doctoremail'])
             
-
             if request.POST['doctoremail']==doctor.doctoremail:
                 if request.POST['password']==doctor.password:
                     request.session['doctoremail'] = request.POST['doctoremail']
@@ -87,3 +86,15 @@ def viewappointment(request):
     appointments=Appointments.objects.filter(doctor=doctor)
     print(appointments)
     return render(request,'viewappointment.html',{'appointments':appointments,'doctor':doctor})
+
+
+
+
+def search(request):
+    pass
+#     uid=User.objects.all()
+#     doctor=Doctors.objects.get(doctoremail=request.session['doctoremail'])
+#     appointments=Appointments.objects.filter(patient.fname__contains=request.GET['search'],doctor=doctor)
+#     print(appointments)
+#     return render(request,'viewappointment.html',{'appointments':appointments,'doctor':doctor})
+

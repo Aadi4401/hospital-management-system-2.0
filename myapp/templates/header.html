@@ -56,18 +56,18 @@
                     </div>
                     <div class="ms-3">
                         <h6 class="mb-0"></h6>
-                        <span>{{uid.email}}</span>
+                        <span>{{uid.fname}} {{uid.lname}}</span>
                     </div>
                 </div>
                 <div class="navbar-nav w-100" >
-                    <a href='{% url "dashboard" %}' class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                    <a href='{% url "pdash" %}' class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-calendar2-month"></i>Appoinment</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href='{% url "appointment" %}' class="dropdown-item"><i class="bi bi-calendar2-check-fill"></i> Book Appoinment</a>
+                            <a href='{% url "appointment" %}' class="dropdown-item" style="color:#007bff;";><i class="bi bi-calendar2-check-fill" style="color:#007bff;";></i> <b>Book Appoinment</b></a>
                             
-                            <a href='{% url "lappointment" %}' class="dropdown-item"><i class="bi bi-calendar-check-fill"></i>Book Test appointment</a>
-                            <a href="element.html" class="dropdown-item">Other Elements</a>
+                            <a href='{% url "lappointment" %}' class="dropdown-item" style="color:#007bff;";><i class="bi bi-calendar-check-fill" style="color:#007bff;"></i><b>Book Test appointment</b></a>
+                            <a href='{% url "pviewappointment" %}' class="dropdown-item" style="color:#007bff;";><i class="bi bi-calendar-check-fill" style="color:#007bff;"></i><b>Manage Appointments</b></a>
                         </div>
                     </div>
                     <div class="navbar-nav w-100" >
@@ -109,8 +109,8 @@
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
                 </a>
-                <form class="d-none d-md-flex ms-4">
-                    <input class="form-control border-0" type="search" placeholder="Search">
+                <form class="d-none d-md-flex ms-4" action="" >
+                    <input class="form-control border-0" type="search" name="search" placeholder="Search"> <button><i class="fa fa-search" style="color:#007bff"></i></button>
                 </form>
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">

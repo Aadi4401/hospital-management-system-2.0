@@ -6,6 +6,8 @@ urlpatterns = [
       path('getspe/',views.getspe,name="getspe"),
       
       path('',views.index,name="index"),
+      path('np/',views.np,name="np"),
+
       path('register/',views.register,name="register"),
       path('plogin/',views.plogin,name="plogin"),
       path('covid/',views.covid,name="covid"),
@@ -23,6 +25,9 @@ urlpatterns = [
       path('pforgot/',views.pforgot,name="pforgot"),
       path('pchangepass/',views.pchangepass,name="pchangepass"),
       path('appointment/',views.appointment,name="appointment"),
+      path('pviewappointment/',views.pviewappointment,name="pviewappointment"),
+      path('delete/',views.delete,name="delete"),
+      
       path('lappointment/',views.lappointment,name="lappointment"),
 
       # path('pay/', views.pay, name='pay'),
