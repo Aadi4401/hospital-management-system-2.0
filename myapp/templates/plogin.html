@@ -13,6 +13,7 @@
         </div>
         <form action="{% url 'plogin' %}" method="POST">
           {% csrf_token %}
+          {{msg}}
           <input type="email" placeholder='email' name="email" required><br/>
           <input type="Password" placeholder='Password' name="password" required><br/>
           <br/>

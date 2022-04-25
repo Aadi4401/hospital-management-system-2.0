@@ -12,10 +12,12 @@ from Doctor.models import Doctors
 import razorpay
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseBadRequest
+from django.db.models import Q
 
 # Create your views here.
 def index(request):
-    return render(request,'index.html')
+    doctor=Doctors.objects.all()
+    return render(request,'index.html',{'doctor':doctor})
 
 
 def np(request):
@@ -86,7 +88,7 @@ def plogin(request):
                 return render(request,'plogin.html',{'msg':'Inncorrect password','uid':uid})
             except:
                 msg = 'Email is not register'
-                return render(request,'plogin.html',{'msg':msg,'uid':uid})
+                return render(request,'plogin.html',{'msg':msg})
         return render(request,'plogin.html')
 
 def plogout(request):
@@ -160,9 +162,13 @@ def contact(request):
     return render(request,'contact.html')
 def about(request):
     return render(request,'about.html')
+
+
 def pdash(request):
     uid=User.objects.get(email=request.session['email'])
-    return render(request,'pdash.html',{'uid':uid})
+    lab = Lappointment.objects.filter(Q(patient=uid) & ~Q(test_result = None))
+    return render(request,'pdash.html',{'uid':uid,'lab':lab})
+
 def dashboard(request):
     return render(request,'dashboard.html')
 
@@ -275,6 +281,17 @@ def docpaymenthandler(request,pk):
                 ap.verify = True
                 ap.save()
                 # render success page on successful caputre of payment
+                
+                subject = 'Appointment status'
+                message = f'''  Appointment Booked Successfully :  {ap.pay_id}
+                amount payed:  {ap.amount}
+                payment mode :  {ap.pay_method}
+                payment time :  {ap.pay_at}
+                '''
+               
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list = [request.session['email'], ]
+                send_mail( subject, message, email_from, recipient_list )               
                 return render(request, 'success.html')
             except:
 
@@ -371,6 +388,17 @@ def labpaymenthandler(request,pk):
                 lap.verify = True
                 lap.save()
                 # render success page on successful caputre of payment
+                subject = 'Appointment status'
+                message = f''' Appointment Booked Successfully :  {lap.pay_id}
+                amount payed:  {lap.amount}
+                payment mode :  {lap.pay_method}
+                payment time :  {lap.pay_at}
+                '''
+               
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list = [request.session['email'], ]
+                send_mail( subject, message, email_from, recipient_list )
+
                 return render(request, 'success.html')
             except:
 
@@ -390,13 +418,36 @@ def labpaymenthandler(request,pk):
 
 
 
+def donate(request):
+    
+    return render(request,'donate.html')
+
+
+
+
+
+
 
 def pviewappointment(request):
     uid=User.objects.get(email=request.session['email'])
-    appointments=Appointments.objects.all()
+    appointments=Appointments.objects.filter(Q(patient=uid) & Q(Q(pay_method = 'online') & Q(verify = True) | Q(pay_method='offline')))
     print(appointments)
     return render(request,'pviewappointment.html',{'appointments':appointments,'uid':uid})
 
 def delete(request):
     uid=User.objects.get(id=request.POST['id'])
+    uid.delete()
+
+
+
+def delete_appoint(request):
+    apoint = Appointments.objects.get(id= request.POST['id'])
+    apooint.status = 'Canceled'
+    apoint.save()
+
+    ###
+    #
+    #
+    #
+    
     uid.delete()

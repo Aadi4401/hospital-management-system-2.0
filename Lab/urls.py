@@ -10,6 +10,8 @@ urlpatterns = [
       path('ldash/', views.ldash, name="ldash"),
       path('lchangepass/', views.lchangepass, name="lchangepass"),
       path('lviewappointment/', views.lviewappointment , name="lviewappointment"),
+      path('viewbtn/<int:pk>', views.viewbtn , name="viewbtn"),
+      path('rep-up/<int:pk>', views.rep_up , name="rep-up"),
       
 
 ]

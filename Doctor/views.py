@@ -9,6 +9,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 from random import randrange
 
+from django.db.models import Q
 
 # Create your views here.
 def dlogin(request):
@@ -23,7 +24,7 @@ def dlogin(request):
                     return render(request,'ddash.html',{'msg':'login successfully','doctor':doctor})
                 return render(request,'dlogin.html',{'msg':'invalid password','doctor':doctor})                        
         except:
-            return render(request,'dlogin.html',{'msg':'email not registered','doctor':doctor})
+            return render(request,'dlogin.html',{'msg':'email not registered',})
     return render(request,'dlogin.html')
 
 def dlogout(request):
@@ -83,7 +84,7 @@ def dedit(request):
 
 def viewappointment(request):
     doctor=Doctors.objects.get(doctoremail=request.session['doctoremail'])
-    appointments=Appointments.objects.filter(doctor=doctor)
+    appointments=Appointments.objects.filter(Q(doctor=doctor) & Q(Q(pay_method = 'online') & Q(verify = True) | Q(pay_method='offline')))
     print(appointments)
     return render(request,'viewappointment.html',{'appointments':appointments,'doctor':doctor})
 
@@ -91,10 +92,9 @@ def viewappointment(request):
 
 
 def search(request):
-    pass
-#     uid=User.objects.all()
-#     doctor=Doctors.objects.get(doctoremail=request.session['doctoremail'])
-#     appointments=Appointments.objects.filter(patient.fname__contains=request.GET['search'],doctor=doctor)
-#     print(appointments)
-#     return render(request,'viewappointment.html',{'appointments':appointments,'doctor':doctor})
+    uid=User.objects.all()
+    doctor=Doctors.objects.get(doctoremail=request.session['doctoremail'])
+    appointments=Appointments.objects.filter(patient__fname__contains=request.GET['search'],doctor=doctor)
+    print(appointments)
+    return render(request,'viewappointment.html',{'appointments':appointments,'doctor':doctor})
 

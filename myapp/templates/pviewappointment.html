@@ -31,7 +31,7 @@
         padding-top: 12px;
         padding-bottom: 12px;
         text-align: left;
-        background-color: #04AA6D;
+        background-color: #3c8ec2;
         color: white;
     }
 </style>
@@ -67,29 +67,29 @@
                 <td>{{one.amount}}</td>
                 <td>{{one.verify}}</td>
                 <td>{{one.pay_at}}</td>
-                <td><button onclick="del({{one.id}})">Del</button></td>
+                <td><button style="background:#3c8ec2">cancel</button></td>
             </tr>
             {% endfor %}
        
         </tbody>
     </table>
     <script>
-      function del(btnid){
-        $.ajax({
-          url : "{% 'delete' %}",
-          method: 'POST',
-          data:{
-            id : btnid,
-            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
-          },
-          success: function(response){
-            alert(response.msg)
+    //   function del(btnid){
+    //     $.ajax({
+    //       url : "{ url 'delete-appointment'  }",
+    //       method: 'POST',
+    //       data:{
+    //         id : btnid,
+    //         csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+    //       },
+    //       success: function(response){
+    //         alert(response.msg)
               
 
-          }
-        })
+    //       }
+    //     })
         
-      }
+    //   }
 
       </script>
 

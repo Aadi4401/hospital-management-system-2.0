@@ -35,6 +35,7 @@ class Appointments(models.Model):
     amount=models.IntegerField(default=0)
     verify=models.BooleanField(default=False)
     pay_at=models.DateTimeField(auto_now_add=True)
+    
 
     def __str__(self):
         return self.patient.email

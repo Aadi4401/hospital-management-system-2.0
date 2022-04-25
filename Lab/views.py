@@ -5,6 +5,8 @@ from .models import *
 from django.conf import settings
 from django.core.mail import send_mail
 from random import randrange
+
+from django.db.models import Q
 # Create your views here.
 
 
@@ -82,9 +84,22 @@ def lforgot(request):
 
 def lviewappointment(request):
     lab=Assistants.objects.get(email=request.session['email'])
-    lappointments=Lappointment.objects.filter(lab=lab)
+    lappointments=Lappointment.objects.filter(Q(verify=True) | Q(pay_method='offline'))
     print(lappointments)
     return render(request,'lviewappointment.html',{'lappointments':lappointments,'lab':lab})
 
-
+def viewbtn(request,pk):
+    lab=Assistants.objects.get(email=request.session['email'])
+    lappointments=Lappointment.objects.get(id=pk)
     
+    print(lappointments)
+    return render(request,'viewbtn.html',{'lappointments':lappointments,'lab':lab})
+    
+def rep_up(request,pk):
+    app = Lappointment.objects.get(id=pk)
+    lab=Assistants.objects.get(email=request.session['email'])
+    app.lab = lab
+    app.test_result = request.FILES['report']
+    app.save()    
+    return render(request,'viewbtn.html',{'lappointments':app,'lab':lab })
+

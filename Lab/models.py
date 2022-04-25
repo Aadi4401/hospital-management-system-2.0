@@ -37,7 +37,7 @@ class Lappointment(models.Model):
     test=models.ForeignKey(Test,on_delete=models.CASCADE)
     pay_at=models.DateTimeField(auto_now_add=True)
     pay_method=models.CharField(max_length=30,null=True,blank=True)
-    # test_result=models.FileField(upload_to=
+    test_result=models.FileField(upload_to='reports',null=True,blank=True)
 
 
 

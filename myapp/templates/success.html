@@ -1,4 +1,5 @@
 {% load static %}
+
 <html>
   <head>
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700,900&display=swap" rel="stylesheet">
@@ -78,7 +79,8 @@
       <h2>Payment Success</h2>
 
       <div>
-      <button type="submit" href="{% url  'pdash' %}">Back</button>
+      
+      <button type="submit"> <a  href="{% url 'pdash' %}">Back</a></button>
       </div>
     </body>
 </html>

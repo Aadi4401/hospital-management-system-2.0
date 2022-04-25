@@ -1,8 +1,7 @@
 {% extends 'header3.html' %}
 {% load static %}
 {% block content %}
-<!DOCTYPE html>
-<html>
+
 <style>
     #customers {
         font-family: Arial, Helvetica, sans-serif;
@@ -28,12 +27,12 @@
         padding-top: 12px;
         padding-bottom: 12px;
         text-align: left;
-        background-color: #04AA6D;
+        background-color: #3c8ec2;
         color: white;
     }
 </style>
 
-<body>
+
 
     <h1 style="color:#009CFF">Test Appointments</h1>
 
@@ -48,22 +47,27 @@
             <th>Pay id</th>
             <th>Verify</th>
             <th>Pay at</th>
+            <th>Action</th>
+
 
 
         </tr>
         {% for one in lappointments %}
         <tr>
             <td>{{one.patient.fname}} {{one.patient.lname}}</td>
+            <td>{{one.test}}</td> 
             <td>{{one.date}}</td> 
             <td>{{one.time}}</td>
             <td>{{one.amount}}</td>
             <td>{{one.pay_method}}</td>
+            <td>{{one.pay_id}}</td>
             <td>{{one.verify}}</td>
             <td>{{one.pay_at}}</td>
+            <td><button > <a  href="{% url 'viewbtn' one.id %}">view/edit</a></button></td>
         </tr>
         {% endfor %}
     </table>
-</body>
 
-</html>
+
+
 {% endblock %}
