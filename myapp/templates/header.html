@@ -73,10 +73,13 @@
                     <div class="navbar-nav w-100" >
                         <a href='{% url "pchangepass" %}' class="nav-item nav-link active"><i class="fa fa-key" aria-hidden="true"></i>Password</a>
                         
-                    <div class="navbar-nav w-100" >
-                        <a href='{% url "pedit" %}' class="nav-item nav-link active"><i class='fas fa-user-edit' style='font-size:20px'></i>Edit profile</a>
-                    <div class="navbar-nav w-100" >
-                        <a href='{% url "plogout" %}' class="nav-item nav-link active"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>Logout</a>
+                        <div class="navbar-nav w-100" >
+                            <a href='{% url "pedit" %}' class="nav-item nav-link active"><i class='fas fa-user-edit' style='font-size:20px'></i>Edit profile</a>
+                            <div class="navbar-nav w-100" >
+                                <a href='{% url "plogout" %}' class="nav-item nav-link active"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>Logout</a>
+                                <div class="navbar-nav w-100" >
+                                    <button class="custom-btn btn-9"><a href="{{one.test_result.url}}" > REPORT<i class="bi bi-file-earmark-arrow-down-fill"></i></a></button> 
+                            </div>
                             </div>
                             </div>
                             </div>
@@ -113,7 +116,7 @@
                     <input class="form-control border-0" type="search" name="search" placeholder="Search"> <button><i class="fa fa-search" style="color:#007bff"></i></button>
                 </form>
                 <div class="navbar-nav align-items-center ms-auto">
-                    <div class="nav-item dropdown">
+                    <!-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <i class="fa fa-envelope me-lg-2"></i>
                             <span class="d-none d-lg-inline-flex">Message</span>
@@ -151,7 +154,7 @@
                             <hr class="dropdown-divider">
                             <a href="#" class="dropdown-item text-center">See all message</a>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <i class="fa fa-bell me-lg-2"></i>

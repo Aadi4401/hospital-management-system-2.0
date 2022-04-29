@@ -92,8 +92,14 @@ def plogin(request):
         return render(request,'plogin.html')
 
 def plogout(request):
-    del request.session['email']
-    return render(request,'plogin.html') 
+    try:
+
+        del request.session['email']
+        return render(request,'plogin.html') 
+    
+    except:
+        return render(request,'plogin.html') 
+
 
 
 
@@ -438,16 +444,17 @@ def delete(request):
     uid=User.objects.get(id=request.POST['id'])
     uid.delete()
 
-
-
-def delete_appoint(request):
-    apoint = Appointments.objects.get(id= request.POST['id'])
-    apooint.status = 'Canceled'
-    apoint.save()
-
-    ###
-    #
-    #
-    #
-    
-    uid.delete()
+def contact(request):
+    try:
+        if request.method=='POST':
+            
+            Contact.objects.create(
+                name=request.POST['name'],
+                email=request.POST['email'],
+                phone=request.POST['phone'],
+                subject=request.POST['subject'],
+                message=request.POST['message'],
+            )
+        return render(request,'contact.html',{'msg':'ThankYou for contacting Us'})
+    except:
+        return render(request,'contact.html')

@@ -826,13 +826,14 @@ background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
  <div class="frame">
    <!-- <button class="custom-btn btn-1">Read More</button>
    <button class="custom-btn btn-2">Read More</button> -->
-   
-   <button class="custom-btn btn-3" ><a href="{% url 'appointment' %}"><span>d ap</span></a></button>
-   <button class="custom-btn btn-4"><a href="{% url 'lappointment' %}"><span>l ap</span></a></button>
-   <button class="custom-btn btn-5"><a href="{% url 'pviewappointment' %}"><span>view ap</span></a></button>
-   <button class="custom-btn btn-6"><a href="{% url 'pchangepass' %}"><span>C P</span></a></button>
+   <br>
+   <br>
+   <button class="custom-btn btn-8" ><a href="{% url 'appointment' %}"><i class="fa fa-calendar"></i></button>
+   <button class="custom-btn btn-4"><a href="{% url 'lappointment' %}"><span><i class="fa fa-heartbeat"></i></span></a></button>
+   <button class="custom-btn btn-5"><a href="{% url 'pviewappointment' %}"><span><i class="bi bi-eye-fill"></i></span></a></button>
+   <button class="custom-btn btn-6"><a href="{% url 'pchangepass' %}"><span><i class="fa fa-key" aria-hidden="true"></i></span></a></span></a></button>
    <!-- <button class="custom-btn btn-7"><span>Read More</span></button> -->
-   <button class="custom-btn btn-12"><a href="{% url 'pedit' %}"><span>Click!</span><span>edit p</span></a></button>
+   <button class="custom-btn btn-6"><a href="{% url 'pedit' %}"><span><i class='fas fa-user-edit' style='font-size:20px'></i></span></a></button>
    <!--  <button class="custom-btn btn-8"><span>Read More</span></button> -->
    <!-- <button class="custom-btn btn-9">Read More</button>
    <button class="custom-btn btn-10">Read More</button>
@@ -841,7 +842,7 @@ background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
    <button class="custom-btn btn-14">Read More</button>
    <button class="custom-btn btn-15">Read More</button> -->
    {% for one in lab %}
-   <button class="custom-btn btn-16"><a href="{{one.test_result.url}}" > Report</a></button> 
+   <button class="custom-btn btn-10"><a href="{{one.test_result.url}}" > <i class="bi bi-file-earmark-arrow-down-fill"></i></a></button> 
    {% endfor %}  
  </div>
        
@@ -854,9 +855,30 @@ background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
   
   
   
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
   
-  
-  <!-- <table id="customers">
+<!-- <table id="customers">
         <tr>
           <th>Test report</th>
           <th>Download</th>
@@ -868,8 +890,8 @@ background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
           <td>Report <a href="{{one.test_result.url}}">Download report</a></td>
         </tr>
         {% endfor %}
-     
-              </table> -->
+    -->
+              <!-- </table> -->
               <br>
               <br>
               <br>

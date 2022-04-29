@@ -30,8 +30,11 @@ def llogin(request):
 
 
 def llogout(request):
-    del request.session['email']
-    return render(request,'llogin.html') 
+    try:
+        del request.session['email']
+        return render(request,'llogin.html') 
+    except:
+        return render(request,'llogin.html') 
     
 def ledit(request):
     lab = Assistants.objects.get(email=request.session['email'])

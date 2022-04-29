@@ -28,11 +28,15 @@ def dlogin(request):
     return render(request,'dlogin.html')
 
 def dlogout(request):
-    del request.session['doctoremail']
-    return render(request,'dlogin.html')
+    try:
+        del request.session['doctoremail']
+        return render(request,'dlogin.html')
+    except:    
+        return render(request,'dlogin.html')
 
 def ddash(request):
-    return render(request,'ddash.html')
+    doctor=Doctors.objects.get(doctoremail=request.session['doctoremail'])
+    return render(request,'ddash.html',{'doctor':doctor})
 
 
 def dforgot(request):

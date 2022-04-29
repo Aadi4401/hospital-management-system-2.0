@@ -26,7 +26,7 @@ urlpatterns = [
       path('pchangepass/',views.pchangepass,name="pchangepass"),
       path('appointment/',views.appointment,name="appointment"),
       path('donate/',views.donate,name="donate"),
-      path('delete-appointment/',views.delete_appoint,name="delete-appointment"),
+      
       
       
       path('pviewappointment/',views.pviewappointment,name="pviewappointment"),

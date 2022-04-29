@@ -39,3 +39,10 @@ class Appointments(models.Model):
 
     def __str__(self):
         return self.patient.email
+
+class Contact(models.Model):
+    name=models.CharField(max_length=35)
+    email=models.EmailField(unique=True)
+    phone=models.CharField(max_length=14)
+    subject=models.CharField(max_length=50)
+    message=models.TextField()

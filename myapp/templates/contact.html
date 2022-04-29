@@ -110,6 +110,7 @@
             <div class="form-contant">
                <form id="ajax-contact" action="{% url 'contact' %}" method="POST">
                   {% csrf_token %}
+                  {{msg}}
                   <div class="row" >
                      <div class="col-md-6">
                         <div class="form-group in_name">
@@ -136,7 +137,7 @@
                            <textarea class="form-control" id="message" rows="5" placeholder="Message"  name="message"required="required"></textarea>
                         </div>
                         <div class="actions">
-                           <input type="submit" value="Send Message" name="submit" id="submitButton" class="btn small" title="Submit Your Message!">
+                           <input type="submit" value="Send Message" name="submit" id="submitButton" class="btn small" title="Submit Your Message!" required>
                         </div>
                      </div>
                   </div>

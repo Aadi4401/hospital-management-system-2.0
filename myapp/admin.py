@@ -9,5 +9,7 @@ class AdminUser(admin.ModelAdmin):
 class AdminAppointments(admin.ModelAdmin):
     list_display=['id','patient','doctor','date','time','pay_method','pay_id','amount','verify','pay_at']
 
-
+@admin.register(Contact)
+class AdminContact(admin.ModelAdmin):
+    list_display = ['id','name','email','phone','subject','message']
 
